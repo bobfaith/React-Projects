@@ -5,10 +5,11 @@ const AddNotes = () => {
   const context = useContext(noteContext);
   const {addNote} = context;
 
-  const [note, setNote] = useState({title: '', description: '', tag: 'default'})
+  const [note, setNote] = useState({title: '', description: '', tag: ''})
   const handleClick = (e) => {
     e.preventDefault();
     addNote(note.title, note.description, note.tag);
+    setNote({title: '', description: '', tag: ''})
   }
 
   const onChange = (e) => {
@@ -26,7 +27,7 @@ const AddNotes = () => {
             type="text"
             className="form-control"
             id="title"
-            name="title" aria-describedby="title" onChange={onChange}
+            name="title" aria-describedby="title" value={note.title} onChange={onChange} minLength={3} required
           />
         </div>
         <div class="mb-3">
@@ -36,7 +37,7 @@ const AddNotes = () => {
           <input
             type="text"
             className="form-control"
-            id="description" name="description" onChange={onChange}
+            id="description" name="description" value={note.description} onChange={onChange} minLength={5} required
           />
         </div>
         <div class="mb-3">
@@ -46,10 +47,10 @@ const AddNotes = () => {
           <input
             type="text"
             className="form-control"
-            id="tag" name="tag" onChange={onChange}
+            id="tag" name="tag" value={note.tag} onChange={onChange} minLength={3} required
           />
         </div>
-        <button type="submit" className="btn btn-primary" onClick={handleClick}>
+        <button disabled={note.title.length<3 || note.description.length<5} type="submit" className="btn btn-primary" onClick={handleClick}>
           Add Note
         </button>
       </form>
